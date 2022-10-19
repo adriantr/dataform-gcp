@@ -13,16 +13,18 @@ array(
     d.director_id,
     nb.primary_name
   )
-  from ${ ref('directors')} as d where d.movie_id = tc.tconst
-  inner join ${ ref('name_basics')} as nb where nb.nconst = d.director_id
+  from ${ ref('directors')} as d 
+  inner join ${ ref('name_basics')} as nb on nb.nconst = d.director_id
+  where d.movie_id = tc.tconst
 ) as directors,
 array(
   select struct(
     a.actor_id,
     nb.primary_name
   )
-  from ${ ref('actors')} as a where a.movie_id = tb.tconst
-  inner join ${ ref('name_basics')} as nb where nb.nconst = a.actor_id
+  from ${ ref('actors')} as a 
+  inner join ${ ref('name_basics')} as nb on nb.nconst = a.actor_id
+  where a.movie_id = tb.tconst
 ) as actors,
 tr.average_rating as rating,
 tr.num_votes as votes

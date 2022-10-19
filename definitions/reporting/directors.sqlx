@@ -4,7 +4,11 @@ config {
   schema: "imdb_transformed"
 }
 
-select 
+with director_split as (select 
 tconst as movie_id,
-split(directors, ",") as director_id
-from ${ ref('title_crew') }
+split(directors, ",") as director_array
+from { ref('title_crew') })
+select 
+movie_id,
+director_id
+from director_split, director_split.director_array as director_id
