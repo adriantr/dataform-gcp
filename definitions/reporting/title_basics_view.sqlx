@@ -1,0 +1,7 @@
+config { 
+  type: 'view',
+  tags: ["view"],
+  schema: "imdb_transformed"
+}
+
+select * from ${ ref('title_basics' )} limit 1000
