@@ -1,0 +1,26 @@
+config { 
+  type: 'view',
+  tags: ["view"],
+  schema: "imdb_transformed"
+}
+
+select 
+tb.tconst as id,
+tb.primary_title as title,
+tb.start_year as release_year,
+array(
+  select struct(
+    split(tc.directors, ",") as id
+  )
+  from ${ ref('title_crew')} as tc on tb.id = tc.tconst
+) as directors
+array(
+  select struct(
+
+  )
+  from ${ ref('actors')} on actors.movie_id = tb.id
+) as actors,
+ar.avg_rating as rating
+from ${ ref('title_basics' )} as tb
+outer join ${ ref('aggregated_ratings')} as ar on ar.id = tb.id
+where tb.title_type = "movie"

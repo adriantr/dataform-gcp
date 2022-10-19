@@ -1,0 +1,11 @@
+config { 
+  type: 'view',
+  tags: ["view"],
+  schema: "imdb_transformed"
+}
+
+select
+tconst as movie_id,
+nconst as actor_id 
+from ${ ref('title_principals') }
+where category = 'director'
