@@ -15,7 +15,7 @@ array(
   )
   from ${ ref('directors')} as d 
   inner join ${ ref('name_basics')} as nb on nb.nconst = d.director_id
-  where d.movie_id = tc.tconst
+  where d.movie_id = tb.tconst
 ) as directors,
 array(
   select struct(
