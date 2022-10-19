@@ -7,7 +7,7 @@ config {
 with director_split as (select 
 tconst as movie_id,
 split(directors, ",") as director_array
-from { ref('title_crew') })
+from ${ ref('title_crew') })
 select 
 movie_id,
 director_id
