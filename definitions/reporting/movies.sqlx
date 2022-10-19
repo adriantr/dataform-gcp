@@ -10,17 +10,22 @@ tb.primary_title as title,
 tb.start_year as release_year,
 array(
   select struct(
-    split(tc.directors, ",") as director_id
+    d.director_id,
+    nb.primary_name
   )
-  from ${ ref('title_crew')} as tc on tb.tconst = tc.tconst
+  from ${ ref('directors')} as d where d.movie_id = tc.tconst
+  inner join ${ ref('name_basics')} as nb where nb.nconst = d.director_id
 ) as directors,
 array(
   select struct(
-    actor_id
+    a.actor_id,
+    nb.primary_name
   )
   from ${ ref('actors')} as a where a.movie_id = tb.tconst
+  inner join ${ ref('name_basics')} as nb where nb.nconst = a.actor_id
 ) as actors,
-ar.avg_rating as rating
+tr.average_rating as rating,
+tr.num_votes as votes
 from ${ ref('title_basics' )} as tb
-left outer join ${ ref('aggregated_ratings')} as ar on ar.id = tb.tconst
+left outer join ${ ref('title_ratings')} as tr on tr.tconst = tb.tconst
 where tb.title_type = "movie"

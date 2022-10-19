@@ -1,5 +1,5 @@
 config {
   type: "declaration",
   schema: "imdb",
-  name: "reviews",
+  name: "title_ratings",
 }
