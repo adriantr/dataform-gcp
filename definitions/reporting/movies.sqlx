@@ -12,15 +12,15 @@ array(
   select struct(
     split(tc.directors, ",") as id
   )
-  from ${ ref('title_crew')} as tc on tb.id = tc.tconst
-) as directors
+  from ${ ref('title_crew')} as tc on tb.tconst = tc.tconst
+) as directors,
 array(
   select struct(
-
+    actor_id
   )
-  from ${ ref('actors')} on actors.movie_id = tb.id
+  from ${ ref('actors')} as a where a.movie_id = tb.tconst
 ) as actors,
 ar.avg_rating as rating
 from ${ ref('title_basics' )} as tb
-outer join ${ ref('aggregated_ratings')} as ar on ar.id = tb.id
+left outer join ${ ref('aggregated_ratings')} as ar on ar.id = tb.tconst
 where tb.title_type = "movie"
