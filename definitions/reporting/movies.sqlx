@@ -10,7 +10,7 @@ tb.primary_title as title,
 tb.start_year as release_year,
 array(
   select struct(
-    split(tc.directors, ",") as id
+    split(tc.directors, ",") as director_id
   )
   from ${ ref('title_crew')} as tc on tb.tconst = tc.tconst
 ) as directors,
